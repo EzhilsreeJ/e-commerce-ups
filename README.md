@@ -164,21 +164,21 @@ The following screenshots show the requests I tested:
 
 The screenshots are available in the `docs/screenshots/` folder.
 
-### Registration
+## Screenshots
 
-![Registration](docs/screenshots/register-success.png)
+### Registration
+![Registration](postman/register-success.png)
 
 ### Login
-
-![Login](docs/screenshots/login-success.png)
+![Login](postman/login-success.png)
 
 ### Request Without Token
-
-![Unauthorized Request](docs/screenshots/request-without-token.png)
+![Unauthorized Request](postman/product-without-token.png)
 
 ### Request With Token
+![Authorized Request](postman/product-with-token.png)
 
-![Authorized Request](docs/screenshots/request-with-token.png)
+![Authorized Request with Bearer Token](postman/product-with-token-header.png)
 
 ## Testing Checklist
 
