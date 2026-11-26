@@ -180,21 +180,6 @@ The screenshots are available in the `docs/screenshots/` folder.
 
 ![Authorized Request with Bearer Token](postman/product-with-token-header.png)
 
-## Testing Checklist
-
-The following cases can be tested using Postman:
-
-- Successful user registration
-- Duplicate email registration
-- Successful login
-- Login with incorrect password
-- Accessing protected APIs without a token
-- Accessing protected APIs with a valid token
-- Accessing protected APIs with an invalid token
-- Checking password encryption in the database
-
-Refer to [`JWT_TESTING_CHECKLIST.md`](JWT_TESTING_CHECKLIST.md) for the testing steps.
-
 ## Learning Notes
 
 This project helped me understand how to build REST APIs using Spring Boot, connect the application with MySQL, perform database operations using JPA, and secure APIs using Spring Security and JWT.
