@@ -1,0 +1,161 @@
+{
+    "info": {
+        "name": "E-Commerce JWT Testing - Phase 3",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080"
+        },
+        {
+            "key": "token",
+            "value": ""
+        }
+    ],
+    "item": [
+        {
+            "name": "1 - Public Products (200)",
+            "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/products"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('Status is 200', function () { pm.response.to.have.status(200); });"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "2 - Register (201)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"fullName\": \"Jane Doe\",\n    \"email\": \"jane@example.com\",\n    \"password\": \"secret123\"\n}"
+                },
+                "url": "{{baseUrl}}/api/users/register"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('Status is 201', function () { pm.response.to.have.status(201); });",
+                            "pm.test('Password is not returned', function () { pm.expect(pm.response.json()).to.not.have.property('password'); });"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "3 - Login (200; save token)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"email\": \"jane@example.com\",\n    \"password\": \"secret123\"\n}"
+                },
+                "url": "{{baseUrl}}/api/users/login"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+                            "pm.test('Token exists', function () { pm.expect(pm.response.json().token).to.be.a('string').and.not.empty; });",
+                            "pm.collectionVariables.set('token', pm.response.json().token);"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "4 - Protected Product POST (401 without token)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"name\": \"Test Product\",\n    \"description\": \"JWT protected product\",\n    \"price\": 499.0,\n    \"stock\": 10,\n    \"category\": {\n        \"id\": 1\n    }\n}"
+                },
+                "url": "{{baseUrl}}/api/products"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('Status is 401', function () { pm.response.to.have.status(401); });"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "5 - Protected Product POST (token required)",
+            "request": {
+                "method": "POST",
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"name\": \"Test Product\",\n    \"description\": \"JWT protected product\",\n    \"price\": 499.0,\n    \"stock\": 10,\n    \"category\": {\n        \"id\": 1\n    }\n}"
+                },
+                "url": "{{baseUrl}}/api/products"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                            "pm.test('Status is 201', function () { pm.response.to.have.status(201); });"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
