@@ -180,6 +180,8 @@ The screenshots are available in the `docs/screenshots/` folder.
 
 ![Authorized Request with Bearer Token](postman/product-with-token-header.png)
 
+
+
 ## Learning Notes
 
 This project helped me understand how to build REST APIs using Spring Boot, connect the application with MySQL, perform database operations using JPA, and secure APIs using Spring Security and JWT.
